@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+@font-face {
+  font-family: 'Glacial Indifference';
+  src: url('../fonts/GlacialIndifference-Bold.otf') format('opentype');
+  font-weight: 700;
+}
+</style>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #C4A87A; padding: 24px 28px; width: 700px; }
+.label { font-family: 'Glacial Indifference', sans-serif, sans-serif; font-size: 9px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(26,16,8,0.4); margin-bottom: 10px; }
+.row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.bar { height: 100%; background: rgba(26,16,8,0.2); }
+.val { font-family: 'Glacial Indifference', sans-serif, sans-serif; font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.7); letter-spacing: 0.1em; white-space: nowrap; }
+.name { font-family: 'Glacial Indifference', sans-serif, sans-serif; font-size: 11px; font-weight: 700; color: rgba(26,16,8,0.5); letter-spacing: 0.08em; width: 80px; flex-shrink: 0; text-transform: uppercase; }
+</style>
+</head>
+<body>
+  <div class="label">Spacing Scale</div>
+  <div class="row"><div class="name">--space-1</div><div style="width:4px;height:14px;background:rgba(255,255,255,0.7);"></div><div class="val">4px</div></div>
+  <div class="row"><div class="name">--space-2</div><div style="width:8px;height:14px;background:rgba(255,255,255,0.7);"></div><div class="val">8px</div></div>
+  <div class="row"><div class="name">--space-3</div><div style="width:12px;height:14px;background:rgba(255,255,255,0.7);"></div><div class="val">12px</div></div>
+  <div class="row"><div class="name">--space-4</div><div style="width:16px;height:14px;background:rgba(255,255,255,0.7);"></div><div class="val">16px</div></div>
+  <div class="row"><div class="name">--space-5</div><div style="width:24px;height:14px;background:rgba(255,255,255,0.7);"></div><div class="val">24px</div></div>
+  <div class="row"><div class="name">--space-6</div><div style="width:32px;height:14px;background:rgba(255,255,255,0.7);"></div><div class="val">32px</div></div>
+  <div class="row"><div class="name">--space-7</div><div style="width:48px;height:14px;background:rgba(255,255,255,0.7);"></div><div class="val">48px</div></div>
+  <div class="row"><div class="name">--space-8</div><div style="width:64px;height:14px;background:rgba(255,255,255,0.7);"></div><div class="val">64px</div></div>
+  <div class="row"><div class="name">--space-9</div><div style="width:96px;height:14px;background:rgba(255,255,255,0.7);"></div><div class="val">96px</div></div>
+  <div class="row"><div class="name">--space-10</div><div style="width:128px;height:14px;background:rgba(255,255,255,0.7);"></div><div class="val">128px</div></div>
+
+  <div class="label" style="margin-top:20px">Corner Radius — All Shapes Are Square (Radius = 0)</div>
+  <div style="display:flex;gap:12px;align-items:center;">
+    <div style="width:50px;height:50px;background:rgba(255,255,255,0.25);border:2px solid rgba(255,255,255,0.7);border-radius:0;"></div>
+    <div style="font-family:'Glacial Indifference', sans-serif,sans-serif;font-size:12px;font-weight:700;letter-spacing:0.1em;color:rgba(255,255,255,0.7);">RADIUS: 0 — FLAT, SQUARE CORNERS THROUGHOUT</div>
+  </div>
+
+  <div class="label" style="margin-top:18px">Borders & Dividers</div>
+  <div style="height:2px;background:#1A1008;width:100%;margin-bottom:8px;"></div>
+  <div style="font-family:'Glacial Indifference', sans-serif,sans-serif;font-size:11px;font-weight:700;color:rgba(255,255,255,0.6);letter-spacing:0.1em;">2PX SOLID DARK (#1A1008) — SECTION DIVIDER</div>
+</body>
+</html>
