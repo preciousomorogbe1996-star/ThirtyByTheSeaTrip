@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>body{margin:0;background:#111;display:flex;flex-wrap:wrap;gap:10px;padding:10px;}</style>
+</head>
+<body>
+<div id="container"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+async function renderPDF() {
+  const response = await fetch('uploads/birthday_trip.pdf');
+  const buffer = await response.arrayBuffer();
+  const pdf = await pdfjsLib.getDocument({data: buffer}).promise;
+  
+  for (let i = 1; i <= pdf.numPages; i++) {
+    const page = await pdf.getPage(i);
+    const viewport = page.getViewport({scale: 1.2});
+    const canvas = document.createElement('canvas');
+    canvas.width = viewport.width;
+    canvas.height = viewport.height;
+    canvas.style.border = '2px solid #444';
+    document.getElementById('container').appendChild(canvas);
+    await page.render({canvasContext: canvas.getContext('2d'), viewport}).promise;
+  }
+  document.title = 'done';
+}
+renderPDF();
+</script>
+</body>
+</html>
