@@ -252,6 +252,18 @@ section:not(#hero) { z-index: 2; }
 .gallery-clear-btn:hover { border-color: rgba(255,255,255,0.5); color: rgba(255,255,255,0.8); }
 .gallery-empty { text-align: center; padding: 48px 24px; color: rgba(255,255,255,0.3); font-family: var(--body); font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; border: 2px dashed rgba(255,255,255,0.1); width: 100%; }
 
+/* polaroid caption editing */
+.polaroid-caption-wrap { text-align: center; margin-top: 6px; }
+.polaroid-caption-text { display: inline-block; cursor: text; border-bottom: 1px dashed transparent; transition: border-color 0.15s; }
+.polaroid-caption-text:hover { border-bottom-color: rgba(26,16,8,0.3); }
+.polaroid-caption-input {
+  width: 100%; border: none; border-bottom: 1.5px solid var(--sand-dk);
+  background: transparent; text-align: center; outline: none;
+  font-family: var(--body); font-size: 11px; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase; color: rgba(26,16,8,0.8);
+  padding: 2px 4px;
+}
+
 /* polaroid delete btn */
 .polaroid-del { position: absolute; top: 4px; right: 4px; width: 22px; height: 22px; background: rgba(26,16,8,0.6); border: none; color: white; font-size: 12px; cursor: pointer; display: none; align-items: center; justify-content: center; border-radius: 50%; z-index: 10; }
 .polaroid:hover .polaroid-del { display: flex; }
@@ -1290,9 +1302,12 @@ updateOverall();
       el.innerHTML =
         '<div class="polaroid-tape"></div>' +
         '<div class="polaroid-img" style="background:#eee;overflow:hidden;padding:0;">' +
-          '<img src="' + p.src + '" alt="' + (p.name||'') + '" style="width:100%;height:100%;object-fit:cover;display:block;">' +
+          '<img src="' + p.src + '" alt="' + sanitize(p.name||'') + '" style="width:100%;height:100%;object-fit:cover;display:block;">' +
         '</div>' +
-        '<div class="polaroid-caption">' + sanitize(p.name) + '</div>' +
+        '<div class="polaroid-caption-wrap">' +
+          '<span class="polaroid-caption polaroid-caption-text" title="Click to rename">' + sanitize(p.name || 'Add caption') + '</span>' +
+          '<input class="polaroid-caption-input" type="text" value="' + sanitize(p.name||'') + '" placeholder="Add caption" style="display:none;">' +
+        '</div>' +
         '<button class="polaroid-del" aria-label="Remove photo" data-idx="' + i + '">✕</button>';
       el.querySelector('.polaroid-img').addEventListener('click', function() { lightboxOpen(i); });
       el.querySelector('.polaroid-del').addEventListener('click', function(e) {
@@ -1301,6 +1316,33 @@ updateOverall();
         save();
         render();
       });
+
+      // Caption inline editing
+      (function(idx) {
+        var captionText = el.querySelector('.polaroid-caption-text');
+        var captionInput = el.querySelector('.polaroid-caption-input');
+        captionText.addEventListener('click', function(e) {
+          e.stopPropagation();
+          captionText.style.display = 'none';
+          captionInput.style.display = 'block';
+          captionInput.focus();
+          captionInput.select();
+        });
+        function saveCaption() {
+          var val = captionInput.value.trim();
+          photos[idx].name = val;
+          save();
+          captionText.textContent = val || 'Add caption';
+          captionInput.style.display = 'none';
+          captionText.style.display = '';
+        }
+        captionInput.addEventListener('blur', saveCaption);
+        captionInput.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter') { e.preventDefault(); saveCaption(); }
+          if (e.key === 'Escape') { captionInput.value = photos[idx].name || ''; saveCaption(); }
+        });
+      })(i);
+
       grid.appendChild(el);
     });
   }
