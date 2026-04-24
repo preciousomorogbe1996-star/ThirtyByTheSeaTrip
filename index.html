@@ -360,6 +360,12 @@ footer { background: var(--dark); border-top: 1px solid rgba(196,168,122,0.12); 
   border: 1px solid rgba(196,168,122,0.25);
   padding: 14px 20px;
   display: flex; flex-direction: column; align-items: center; gap: 2px;
+  opacity: 0; pointer-events: none;
+  transform: translateY(10px);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+#fixed-countdown.fcd-visible {
+  opacity: 1; pointer-events: auto; transform: translateY(0);
 }
 #fixed-countdown .fcd-tag {
   font-family: var(--body); font-size: 8px; font-weight: 700;
@@ -517,7 +523,6 @@ a[href*="booking.com"] {
   .countdown    { gap: 10px; }
   .cd-sep       { font-size: 32px; }
   .map-stops    { min-width: 0; width: 100%; }
-  #fixed-countdown { display: none; } /* avoid covering content on tiny screens */
 }
 </style>
 </head>
@@ -955,7 +960,7 @@ a[href*="booking.com"] {
             Day: Group boat tour with Ksamili Boat Tours · 4 Islands · Swim + snorkel · BBQ fish lunch on beach<br>
             Daily tour: 9:30am–4pm · Visits Ksamil Islands, Ali Pasha's Castle, Tongo Islands, Ftelea Bay<br>
             Evening: Chill dinner · Early night or light drinks<br>
-            <span style="color:#5C3A00;font-size:12px;display:block;margin-top:4px;background:rgba(26,16,8,0.08);padding:6px 8px;">📞 Book: <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="c0abb3a1ada9aca9a2afa1b4b4afb5b2b380a7ada1a9aceea3afad">[email&#160;protected]</a> · +355 69 993 2818 · Daily / Hourly / Sunset tours available</span>
+            <span style="color:#5C3A00;font-size:12px;display:block;margin-top:4px;background:rgba(26,16,8,0.08);padding:6px 8px;">📞 Book: <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="9ff4ecfef2f6f3f6fdf0feebebf0eaedecdff8f2fef6f3b1fcf0f2">[email&#160;protected]</a> · +355 69 993 2818 · Daily / Hourly / Sunset tours available</span>
           </div>
           <div class="day-vibe">Vibe: soft life, carefree, elite</div>
         </div>
@@ -1313,6 +1318,19 @@ const observer = new IntersectionObserver((entries) => {
   entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
 }, { threshold: 0.1 });
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// ── FIXED COUNTDOWN: show only when scrolled past hero ──
+(function() {
+  const fcd = document.getElementById('fixed-countdown');
+  const hero = document.getElementById('hero');
+  function toggleFcd() {
+    if (!fcd || !hero) return;
+    const pastHero = window.scrollY >= hero.offsetHeight * 0.85;
+    fcd.classList.toggle('fcd-visible', pastHero);
+  }
+  window.addEventListener('scroll', toggleFcd, { passive: true });
+  toggleFcd();
+})();
 
 // ── ACTIVE NAV ──
 const sections = document.querySelectorAll('section[id]');
