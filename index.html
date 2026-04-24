@@ -284,6 +284,73 @@ footer { background: var(--dark); border-top: 1px solid rgba(196,168,122,0.12); 
 /* Hero elements always visible — no reveal delay */
 #hero .reveal { opacity: 1; transform: none; }
 
+/* ── PAYMENT ALERT ── */
+.payment-alert {
+  position: relative; margin-top: 36px; max-width: 540px; width: 100%;
+  border: 1.5px solid rgba(255,220,100,0.55);
+  background: rgba(20,10,0,0.72); backdrop-filter: blur(12px);
+  overflow: hidden;
+}
+.payment-alert-pulse {
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(255,210,80,0.9), transparent);
+  animation: alertSweep 2.4s ease-in-out infinite;
+}
+@keyframes alertSweep {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+.payment-alert-inner { padding: 18px 22px; }
+.payment-alert-header {
+  display: flex; align-items: center; gap: 10px;
+  color: rgba(255,210,80,1); margin-bottom: 14px;
+}
+.payment-alert-title {
+  font-family: var(--body); font-size: 11px; font-weight: 700;
+  letter-spacing: 0.18em; text-transform: uppercase; flex: 1;
+}
+.payment-alert-countdown {
+  font-family: var(--disp); font-size: 20px;
+  color: rgba(255,210,80,1); white-space: nowrap; line-height: 1;
+}
+.payment-alert-items { display: flex; flex-direction: column; gap: 8px; }
+.payment-alert-item {
+  display: flex; align-items: center; gap: 10px;
+  font-family: var(--body); font-size: 12px; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: rgba(255,255,255,0.82);
+}
+.payment-alert-item strong { color: #fff; }
+.payment-alert-item svg { flex-shrink: 0; color: rgba(255,210,80,0.8); }
+.payment-alert-divider { height: 1px; background: rgba(255,210,80,0.12); }
+.payment-alert-footer {
+  margin-top: 14px; padding-top: 12px;
+  border-top: 1px solid rgba(255,210,80,0.18);
+  font-family: var(--body); font-size: 10px; font-weight: 700;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: rgba(255,210,80,0.75);
+}
+.payment-alert-footer strong { color: rgba(255,220,100,1); }
+.payment-alert-btn {
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  margin-top: 14px;
+  background: #FF3464; color: #fff;
+  font-family: -apple-system, 'Helvetica Neue', sans-serif;
+  font-size: 15px; font-weight: 700;
+  letter-spacing: 0.01em; text-transform: none; text-decoration: none;
+  text-align: center; padding: 14px 20px; min-height: 48px;
+  border-radius: 8px;
+  transition: background 0.15s, transform 0.1s, box-shadow 0.15s;
+  box-shadow: 0 2px 12px rgba(255,52,100,0.35);
+}
+.payment-alert-btn:hover { background: #e02a58; transform: translateY(-1px); box-shadow: 0 4px 18px rgba(255,52,100,0.45); }
+.payment-alert-btn svg { flex-shrink: 0; }
+@media (max-width: 640px) {
+  .payment-alert { margin-top: 24px; }
+  .payment-alert-inner { padding: 14px 16px; }
+  .payment-alert-item { font-size: 11px; }
+}
+
 
 
 /* Fixed countdown widget */
@@ -559,6 +626,44 @@ a[href*="booking.com"] {
       <div class="cd-unit"><div class="cd-num" id="cd-secs">--</div><div class="cd-label">Secs</div></div>
     </div>
     <div class="reveal reveal-delay-4" style="margin-top:12px;font-family:var(--body);font-size:11px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.88);">Until departure · 19 May 2026 · 06:00 · STN</div>
+
+    <!-- ── PAYMENT DUE ALERT ── -->
+    <div class="payment-alert reveal reveal-delay-5" id="payment-alert">
+      <div class="payment-alert-pulse"></div>
+      <div class="payment-alert-inner">
+        <div class="payment-alert-header">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 3L22 21H2L12 3Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+            <path d="M12 10V14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="12" cy="17.5" r="1" fill="currentColor"/>
+          </svg>
+          <span class="payment-alert-title">PAYMENT DEADLINE — END OF APRIL</span>
+          <span class="payment-alert-countdown" id="alert-days-left"></span>
+        </div>
+        <div class="payment-alert-items">
+          <div class="payment-alert-item">
+            <svg width="14" height="11" viewBox="0 0 40 28" fill="none"><rect x="2" y="2" width="36" height="24" rx="2" stroke="currentColor" stroke-width="2.5"/><path d="M2 14 L38 14" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 2"/><path d="M28 2 L28 26" stroke="currentColor" stroke-width="2"/></svg>
+            <span>FLIGHTS (RYANAIR) — <strong>£168.33 PP</strong></span>
+          </div>
+          <div class="payment-alert-divider"></div>
+          <div class="payment-alert-item">
+            <svg width="12" height="14" viewBox="0 0 24 28" fill="none"><path d="M12 2C7 2 3 6 3 11C3 18 12 26 12 26C12 26 21 18 21 11C21 6 17 2 12 2Z" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="11" r="3.5" stroke="currentColor" stroke-width="2"/></svg>
+            <span>HOTEL 2 — ARAMERAS RESORT — <strong>£172 PP</strong></span>
+          </div>
+        </div>
+        <div class="payment-alert-footer">
+          PAY BEFORE 30 APRIL 2026 · <strong>£340.33 PP TOTAL DUE NOW</strong>
+        </div>
+        <a href="https://monzo.me/paomorogbe/340.33?h=birQhl&d=Flights%20and%202nd%20hotel%20&account_type=personal" target="_blank" class="payment-alert-btn">
+          <svg width="20" height="20" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="20" cy="20" r="20" fill="white" fill-opacity="0.2"/>
+            <path d="M10 14L20 10L30 14V26L20 30L10 26V14Z" fill="white" fill-opacity="0.9"/>
+            <path d="M20 10L20 30M10 14L30 26M30 14L10 26" stroke="#FF3464" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          Pay £340.33 via Monzo
+        </a>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -850,7 +955,7 @@ a[href*="booking.com"] {
             Day: Group boat tour with Ksamili Boat Tours · 4 Islands · Swim + snorkel · BBQ fish lunch on beach<br>
             Daily tour: 9:30am–4pm · Visits Ksamil Islands, Ali Pasha's Castle, Tongo Islands, Ftelea Bay<br>
             Evening: Chill dinner · Early night or light drinks<br>
-            <span style="color:#5C3A00;font-size:12px;display:block;margin-top:4px;background:rgba(26,16,8,0.08);padding:6px 8px;">📞 Book: ksamiliboattours@gmail.com · +355 69 993 2818 · Daily / Hourly / Sunset tours available</span>
+            <span style="color:#5C3A00;font-size:12px;display:block;margin-top:4px;background:rgba(26,16,8,0.08);padding:6px 8px;">📞 Book: <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="c0abb3a1ada9aca9a2afa1b4b4afb5b2b380a7ada1a9aceea3afad">[email&#160;protected]</a> · +355 69 993 2818 · Daily / Hourly / Sunset tours available</span>
           </div>
           <div class="day-vibe">Vibe: soft life, carefree, elite</div>
         </div>
@@ -1082,7 +1187,7 @@ a[href*="booking.com"] {
   <div class="footer-sub">See you on the coast 🌴</div>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ── HOTEL CAROUSELS ──
 (function() {
   var state = {};
@@ -1180,6 +1285,24 @@ function updateCountdown() {
   document.getElementById('fcd-secs').textContent  = pad(s);
 
 }
+
+// ── PAYMENT ALERT: days left until 30 April ──
+(function() {
+  const deadline = new Date('2026-04-30T23:59:59');
+  const now = new Date();
+  const msLeft = deadline - now;
+  const el = document.getElementById('alert-days-left');
+  if (!el) return;
+  if (msLeft <= 0) {
+    el.textContent = 'OVERDUE';
+    el.style.color = '#ff6b6b';
+    const alert = document.getElementById('payment-alert');
+    if (alert) alert.style.borderColor = 'rgba(255,100,100,0.6)';
+  } else {
+    const daysLeft = Math.ceil(msLeft / (1000 * 60 * 60 * 24));
+    el.textContent = daysLeft + (daysLeft === 1 ? ' DAY LEFT' : ' DAYS LEFT');
+  }
+})();
 
 // Show/hide hero countdown in hero section (handled by fixed widget)
 updateCountdown();
